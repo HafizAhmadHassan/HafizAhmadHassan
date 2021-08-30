@@ -8,8 +8,8 @@
 # My Blog
 [Medium](https://medium.com/@l154359)
 
-[Website AI-DS-ML-DL-Blog](https://HafizAhmadHassan.github.io/HafizAhmadHassan/)
-[Mircomaster-Data Science MIT] (https://HafizAhmadHassan.github.io/Data-Science-Blog/)
+[Deep Learning](https://HafizAhmadHassan.github.io/HafizAhmadHassan/)
+[Mircomaster-Data Science MIT by Edx](https://HafizAhmadHassan.github.io/Data-Science-Blog/)
 _powered by [fastpages](https://github.com/fastai/fastpages)_
 
 
