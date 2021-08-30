@@ -6,7 +6,7 @@
 
 
 # My Blog
-
+[Medium](https://medium.com/@l154359)
 
 [Website AI-DS-ML-DL-Blog](https://HafizAhmadHassan.github.io/HafizAhmadHassan/)
 
