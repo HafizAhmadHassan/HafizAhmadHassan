@@ -9,7 +9,9 @@
 [Medium](https://medium.com/@l154359)
 
 [Deep Learning](https://HafizAhmadHassan.github.io/HafizAhmadHassan/)
+
 [Mircomaster-Data Science MIT by Edx](https://HafizAhmadHassan.github.io/Data-Science-Blog/)
+
 _powered by [fastpages](https://github.com/fastai/fastpages)_
 
 
