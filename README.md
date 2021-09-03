@@ -6,6 +6,8 @@
 
 
 # My Blog
+Click Links to open blogs
+
 [Medium](https://medium.com/@l154359)
 
 [Deep Learning](https://HafizAhmadHassan.github.io/HafizAhmadHassan/)
