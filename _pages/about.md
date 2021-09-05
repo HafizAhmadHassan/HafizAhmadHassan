@@ -1,16 +1,18 @@
----
+
+<!---
+
 layout: page
 title: About Me
 permalink: /about/
----
+
 <img align="right" width="500" src="{{site.baseurl}}/images/au-nsi-gsi.png">
 
 ## Links
 
---
+
 [//]: # (- [Portfolio](https://olearydj.github.io/antisimplistic/markdown/portfolio/2020/11/07/portfolio-index.html))
 [//]: # (- [SlideShare](https://www.slideshare.net/Antisimplistic))
---
+
 
 [//]: # (- [Resume (Long Form)]({{ site.baseurl }}/docs/2020-11-07-DJO-Resume.pdf))
 
@@ -30,5 +32,5 @@ I currently teach undergraduate courses covering innovation, entrepreneurship, p
 My academic and research interests are broad, encompassing data science, simulation, and visualization. For my dissertation I plan to apply methods from those areas to improve our understanding of processes related to innovation and product development processes.
 
 Meanwhile, I continue to maintain [GUNSTRUCTION](https://gunstruction.net), which I founded in 2012. In 2020 it logged nearly 90 million user interactions across web, iOS, and Android devices.
-
+--->
 --
