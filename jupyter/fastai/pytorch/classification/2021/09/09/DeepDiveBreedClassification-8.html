@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>MultiLabel Classification Exploring APIs for Data Preperation | Deep Learning by fast.ai Blog</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="MultiLabel Classification Exploring APIs for Data Preperation" />
+<meta name="author" content="Jeremy Howard Reorganised by HAFIZ AHMAD HASSAN" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A tutorial for someone have interest we are deep diving to classification Basiaclly we have Explored Datablock ,datasets and lsitzip functionalities." />
+<meta property="og:description" content="A tutorial for someone have interest we are deep diving to classification Basiaclly we have Explored Datablock ,datasets and lsitzip functionalities." />
+<link rel="canonical" href="https://hafizahmadhassan.github.io/HafizAhmadHassan/jupyter/fastai/pytorch/classification/2021/09/09/DeepDiveBreedClassification-8.html" />
+<meta property="og:url" content="https://hafizahmadhassan.github.io/HafizAhmadHassan/jupyter/fastai/pytorch/classification/2021/09/09/DeepDiveBreedClassification-8.html" />
+<meta property="og:site_name" content="Deep Learning by fast.ai Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-09-09T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-09-09T00:00:00-05:00","url":"https://hafizahmadhassan.github.io/HafizAhmadHassan/jupyter/fastai/pytorch/classification/2021/09/09/DeepDiveBreedClassification-8.html","@type":"BlogPosting","headline":"MultiLabel Classification Exploring APIs for Data Preperation","dateModified":"2021-09-09T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://hafizahmadhassan.github.io/HafizAhmadHassan/jupyter/fastai/pytorch/classification/2021/09/09/DeepDiveBreedClassification-8.html"},"author":{"@type":"Person","name":"Jeremy Howard Reorganised by HAFIZ AHMAD HASSAN"},"description":"A tutorial for someone have interest we are deep diving to classification Basiaclly we have Explored Datablock ,datasets and lsitzip functionalities.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/HafizAhmadHassan/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://hafizahmadhassan.github.io/HafizAhmadHassan/feed.xml" title="Deep Learning by fast.ai Blog" /><link rel="shortcut icon" type="image/x-icon" href="/HafizAhmadHassan/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/HafizAhmadHassan/">Deep Learning by fast.ai Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/HafizAhmadHassan/search/">Search</a><a class="page-link" href="/HafizAhmadHassan/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">6. MultiLabel Classification Exploring APIs for Data Preperation</h1><p class="page-description">A tutorial for someone have interest we are deep diving to classification Basiaclly we have Explored Datablock ,datasets and lsitzip functionalities.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-09-09T00:00:00-05:00" itemprop="datePublished">
+        Sep 9, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Jeremy Howard Reorganised by HAFIZ AHMAD HASSAN</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      5 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/HafizAhmadHassan/categories/#jupyter">jupyter</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/HafizAhmadHassan/categories/#fastai">fastai</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/HafizAhmadHassan/categories/#pytorch">pytorch</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/HafizAhmadHassan/categories/#classification">classification</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/HafizAhmadHassan/HafizAhmadHassan/tree/master/_notebooks/2021-09-09-DeepDiveBreedClassification-#8.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/HafizAhmadHassan/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/HafizAhmadHassan/HafizAhmadHassan/master?filepath=_notebooks%2F2021-09-09-DeepDiveBreedClassification-%238.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/HafizAhmadHassan/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/HafizAhmadHassan/HafizAhmadHassan/blob/master/_notebooks/2021-09-09-DeepDiveBreedClassification-#8.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/HafizAhmadHassan/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Fp16-to-fp32-Shit?">Fp16 to fp32 Shit? </a></li>
+<li class="toc-entry toc-h2"><a href="#Data-Frame-Methods">Data Frame Methods </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#iloc">iloc </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#Row-index">Row index </a></li>
+<li class="toc-entry toc-h4"><a href="#Column-index">Column index </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#Creating-Column">Creating Column </a></li>
+<li class="toc-entry toc-h3"><a href="#Adding-Column">Adding Column </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Book-by-Creator">Book by Creator </a></li>
+<li class="toc-entry toc-h2"><a href="#Constructing-Data">Constructing Data </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Dataset-vs-Dataloader-vs-list-Zip">Dataset vs Dataloader vs list Zip </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#Dataset">Dataset </a></li>
+<li class="toc-entry toc-h4"><a href="#Dataloaders">Dataloaders </a></li>
+<li class="toc-entry toc-h4"><a href="#List-zip">List zip </a></li>
+<li class="toc-entry toc-h4"><a href="#Python-shortCut-:-zip">Python shortCut : zip </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#Datasets">Datasets </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#it-will-return-us-tuple">it will return us tuple </a></li>
+<li class="toc-entry toc-h4"><a href="#Take-this-and-computer-dependent-and-independt-variable">Take this and computer dependent and independt variable </a></li>
+<li class="toc-entry toc-h4"><a href="#Transformation-with-Datasets">Transformation with Datasets </a></li>
+<li class="toc-entry toc-h4"><a href="#List-Contaning-F1-and-F2">List Contaning F1 and F2 </a></li>
+<li class="toc-entry toc-h4"><a href="#This-way-create-dataloaders-object">This way create dataloaders object </a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#DataBlock">DataBlock </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#Lamba">Lamba </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Summary-:-What-I-learned-about-Datablock">Summary : What I learned about Datablock </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Same-Thing-Again-With-Functions">Same Thing Again With Functions </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Note">Note </a></li>
+<li class="toc-entry toc-h2"><a href="#Lets-Give-the-path-of-image">Lets Give the path of image </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Results--:-Datablock">Results  : Datablock </a></li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-09-09-DeepDiveBreedClassification-#8.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this case typically we hace more than one label per object you can see</p>
+<h2 id="Fp16-to-fp32-Shit?">
+<a class="anchor" href="#Fp16-to-fp32-Shit?" aria-hidden="true"><span class="octicon octicon-link"></span></a>Fp16 to fp32 Shit?<a class="anchor-link" href="#Fp16-to-fp32-Shit?"> </a>
+</h2>
+<p>Its little bit rounding somewhat uncertaininty in gradient</p>
+<p>Computation Linear Algebra cours</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>PASCAL data set
+with csv file for labeling and column specify if its validation</p>
+<p>pd is for panda</p>
+<p>iloc integer location [:,0] -- print all columns</p>
+<p>a same as</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">fastai.vision.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">path</span> <span class="o">=</span> <span class="n">untar_data</span><span class="p">(</span><span class="n">URLs</span><span class="o">.</span><span class="n">PASCAL_2007</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This dataset is different from the ones we have seen before, in that it is not structured by filename or folder but instead comes with a CSV (comma-separated values) file telling us what labels to use for each image. We can inspect the CSV file by reading it into a Pandas DataFrame:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It will also tell about validation</p>
+<p>dataframe is table containing rows and columns</p>
+<p>pd.head see first fews</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="o">/</span><span class="s1">'train.csv'</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>fname</th>
+      <th>labels</th>
+      <th>is_valid</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>000005.jpg</td>
+      <td>chair</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>000007.jpg</td>
+      <td>car</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>000009.jpg</td>
+      <td>horse person</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>000012.jpg</td>
+      <td>car</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>000016.jpg</td>
+      <td>bicycle</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Data-Frame-Methods">
+<a class="anchor" href="#Data-Frame-Methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data Frame Methods<a class="anchor-link" href="#Data-Frame-Methods"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="iloc">
+<a class="anchor" href="#iloc" aria-hidden="true"><span class="octicon octicon-link"></span></a>iloc<a class="anchor-link" href="#iloc"> </a>
+</h3>
+<p>Data frame has methods index location</p>
+<p>[ row index , Column index]</p>
+<p>if there is bunch of , coluns  you can get rid of that</p>
+<p>you can pass column name</p>
+<p><strong>Python Data Analysis</strong> Higly recommended</p>
+<h4 id="Row-index">
+<a class="anchor" href="#Row-index" aria-hidden="true"><span class="octicon octicon-link"></span></a>Row index<a class="anchor-link" href="#Row-index"> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span>
+
+<span class="c1"># ": " is an option</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>fname       000005.jpg
+labels           chair
+is_valid          True
+Name: 0, dtype: object</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Column-index">
+<a class="anchor" href="#Column-index" aria-hidden="true"><span class="octicon octicon-link"></span></a>Column index<a class="anchor-link" href="#Column-index"> </a>
+</h4>
+<p>two options</p>
+<ol>
+<li>indexing</li>
+<li>Passing column name in data frame</li>
+</ol>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0       000005.jpg
+1       000007.jpg
+2       000009.jpg
+3       000012.jpg
+4       000016.jpg
+           ...    
+5006    009954.jpg
+5007    009955.jpg
+5008    009958.jpg
+5009    009959.jpg
+5010    009961.jpg
+Name: fname, Length: 5011, dtype: object</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">"fname"</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0       000005.jpg
+1       000007.jpg
+2       000009.jpg
+3       000012.jpg
+4       000016.jpg
+           ...    
+5006    009954.jpg
+5007    009955.jpg
+5008    009958.jpg
+5009    009959.jpg
+5010    009961.jpg
+Name: fname, Length: 5011, dtype: object</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Creating-Column">
+<a class="anchor" href="#Creating-Column" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating Column<a class="anchor-link" href="#Creating-Column"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tmp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"a"</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span><span class="s2">"b"</span><span class="p">:[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]})</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Adding-Column">
+<a class="anchor" href="#Adding-Column" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding Column<a class="anchor-link" href="#Adding-Column"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tmp_df</span><span class="p">[</span><span class="s1">'c'</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp_df</span><span class="p">[</span><span class="s1">'a'</span><span class="p">]</span><span class="o">+</span> <span class="n">tmp_df</span><span class="p">[</span><span class="s1">'b'</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Book-by-Creator">
+<a class="anchor" href="#Book-by-Creator" aria-hidden="true"><span class="octicon octicon-link"></span></a>Book by Creator<a class="anchor-link" href="#Book-by-Creator"> </a>
+</h2>
+<p>Python for data analysis</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Constructing-Data">
+<a class="anchor" href="#Constructing-Data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Constructing Data<a class="anchor-link" href="#Constructing-Data"> </a>
+</h2>
+<p>We talked about datablock api its  agreat way to create dataloaders</p>
+<p>Lets do it from data from</p>
+<h3 id="Dataset-vs-Dataloader-vs-list-Zip">
+<a class="anchor" href="#Dataset-vs-Dataloader-vs-list-Zip" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dataset vs Dataloader vs list Zip<a class="anchor-link" href="#Dataset-vs-Dataloader-vs-list-Zip"> </a>
+</h3>
+<h4 id="Dataset">
+<a class="anchor" href="#Dataset" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dataset<a class="anchor-link" href="#Dataset"> </a>
+</h4>
+<p><strong>dataset</strong> is an abstract idea of class
+you can index into it and get labels
+have lenght of it</p>
+<p>for example
+below is qualified</p>
+<p>this is tuple 
+containes</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span><span class="p">))</span>
+<span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>((0, 'a'), 26)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Dataloaders">
+<a class="anchor" href="#Dataloaders" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dataloaders<a class="anchor-link" href="#Dataloaders"> </a>
+</h4>
+<p>When we have dataset and pass to dataloaders with particular batch size</p>
+<p>it will create mini batch</p>
+<p>it has bunch of dependent and independent elements</p>
+<p>Lets see what zip does
+its</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dl_a</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">batch_size</span> <span class="o">=</span><span class="mi">8</span><span class="p">,</span><span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">first</span><span class="p">(</span><span class="n">dl_a</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(tensor([17, 18, 10, 22,  8, 14, 20, 15]),
+ ('r', 's', 'k', 'w', 'i', 'o', 'u', 'p'))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="List-zip">
+<a class="anchor" href="#List-zip" aria-hidden="true"><span class="octicon octicon-link"></span></a>List zip<a class="anchor-link" href="#List-zip"> </a>
+</h4>
+<p>takes one of one or more elements of dependent and independent variable and print out</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">first</span><span class="p">(</span><span class="n">dl_a</span><span class="p">)))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[(tensor([14, 19, 24,  3,  8,  2, 12, 16]),),
+ (('o', 't', 'y', 'd', 'i', 'c', 'm', 'q'),)]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">b</span><span class="o">=</span><span class="n">first</span><span class="p">(</span><span class="n">dl_a</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[(tensor(12), 'm'),
+ (tensor(9), 'j'),
+ (tensor(20), 'u'),
+ (tensor(5), 'f'),
+ (tensor(25), 'z'),
+ (tensor(1), 'b'),
+ (tensor(19), 't'),
+ (tensor(13), 'n')]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Python-shortCut-:-zip">
+<a class="anchor" href="#Python-shortCut-:-zip" aria-hidden="true"><span class="octicon octicon-link"></span></a>Python shortCut : zip<a class="anchor-link" href="#Python-shortCut-:-zip"> </a>
+</h4>
+<p>since we passing all of elements of variable</p>
+<p>Star(variable) does the same
+insert into parameters</p>
+<p>What is Dataset</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">b</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[(tensor(12), 'm'),
+ (tensor(9), 'j'),
+ (tensor(20), 'u'),
+ (tensor(5), 'f'),
+ (tensor(25), 'z'),
+ (tensor(1), 'b'),
+ (tensor(19), 't'),
+ (tensor(13), 'n')]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Datasets">
+<a class="anchor" href="#Datasets" aria-hidden="true"><span class="octicon octicon-link"></span></a>Datasets<a class="anchor-link" href="#Datasets"> </a>
+</h3>
+<p>its an object with training and validation dataset</p>
+<p>normally you start with file name</p>
+<p>calculate , transform your file name into image
+and looking file name assign labels</p>
+<p>Normally you do not start with tuple</p>
+<p>if we pass list to dataset it will return dependent variable</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span><span class="p">)</span>
+<span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>('a', 26)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="it-will-return-us-tuple">
+<a class="anchor" href="#it-will-return-us-tuple" aria-hidden="true"><span class="octicon octicon-link"></span></a>it will return us tuple<a class="anchor-link" href="#it-will-return-us-tuple"> </a>
+</h4>
+<p>(x,y)  it is format</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dss</span> <span class="o">=</span> <span class="n">Datasets</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">dss</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>('a',)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Take-this-and-computer-dependent-and-independt-variable">
+<a class="anchor" href="#Take-this-and-computer-dependent-and-independt-variable" aria-hidden="true"><span class="octicon octicon-link"></span></a>Take this and computer dependent and independt variable<a class="anchor-link" href="#Take-this-and-computer-dependent-and-independt-variable"> </a>
+</h4>
+<p>here is functions we use to computer independednt variable a on the and dependent with b on the end</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">f1</span><span class="p">(</span><span class="n">o</span><span class="p">):</span> <span class="k">return</span> <span class="n">o</span><span class="o">+</span><span class="s2">"a"</span>
+<span class="k">def</span> <span class="nf">f2</span><span class="p">(</span><span class="n">o</span><span class="p">):</span> <span class="k">return</span> <span class="n">o</span><span class="o">+</span><span class="s2">"b"</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Transformation-with-Datasets">
+<a class="anchor" href="#Transformation-with-Datasets" aria-hidden="true"><span class="octicon octicon-link"></span></a>Transformation with Datasets<a class="anchor-link" href="#Transformation-with-Datasets"> </a>
+</h4>
+<p>We can pass lit of transformation to do</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dss</span> <span class="o">=</span> <span class="n">Datasets</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">[[</span><span class="n">f1</span><span class="p">]])</span>
+<span class="n">dss</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>('aa',)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dss</span> <span class="o">=</span> <span class="n">Datasets</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">[[</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">]])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dss</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>('aab',)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="List-Contaning-F1-and-F2">
+<a class="anchor" href="#List-Contaning-F1-and-F2" aria-hidden="true"><span class="octicon octicon-link"></span></a>List Contaning F1 and F2<a class="anchor-link" href="#List-Contaning-F1-and-F2"> </a>
+</h4>
+<p>it will take a pass to f1 and also f2</p>
+<p>this way build up independent and depepndent varaiables in fastai</p>
+<p><strong>Amazing</strong></p>
+<p>For example 
+we passed f1 as image path dependent variable and independt as filename as label</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dss</span> <span class="o">=</span> <span class="n">Datasets</span><span class="p">(</span><span class="n">a</span><span class="p">,[[</span><span class="n">f1</span><span class="p">],[</span><span class="n">f2</span><span class="p">]])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dss</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>('aa', 'ab')</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="This-way-create-dataloaders-object">
+<a class="anchor" href="#This-way-create-dataloaders-object" aria-hidden="true"><span class="octicon octicon-link"></span></a>This way create dataloaders object<a class="anchor-link" href="#This-way-create-dataloaders-object"> </a>
+</h4>
+<p>from datasets by passing datasets and batch size</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dls</span> <span class="o">=</span> <span class="n">DataLoaders</span><span class="o">.</span><span class="n">from_dsets</span><span class="p">(</span><span class="n">dss</span><span class="p">,</span><span class="n">batch_size</span> <span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">first</span><span class="p">(</span><span class="n">dls</span><span class="o">.</span><span class="n">train</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(('ta', 'oa', 'aa', 'ya'), ('tb', 'ob', 'ab', 'yb'))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="DataBlock">
+<a class="anchor" href="#DataBlock" aria-hidden="true"><span class="octicon octicon-link"></span></a>DataBlock<a class="anchor-link" href="#DataBlock"> </a>
+</h2>
+<p>Lets create empty datablock</p>
+<p>its take our dataframe
+which we remember</p>
+<p>we pass that</p>
+<p>we see</p>
+<p>datablock.datasets has created train and validation data for us</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dblock</span> <span class="o">=</span> <span class="n">DataBlock</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dsets</span> <span class="o">=</span> <span class="n">dblock</span><span class="o">.</span><span class="n">datasets</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">dsets</span><span class="o">.</span><span class="n">train</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">dsets</span><span class="o">.</span><span class="n">valid</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(4009, 1002)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>first row is shuffled by default datablock assumed we have two things input and target
+train and valid =20 percent</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">dsets</span><span class="o">.</span><span class="n">train</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">x</span><span class="p">,</span><span class="n">y</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(fname       005239.jpg
+ labels          person
+ is_valid          True
+ Name: 2621, dtype: object,
+ fname       005239.jpg
+ labels          person
+ is_valid          True
+ Name: 2621, dtype: object)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>independent varable and dependent check</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span><span class="p">[</span><span class="s2">"fname"</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>'005239.jpg'</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Lamba">
+<a class="anchor" href="#Lamba" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lamba<a class="anchor-link" href="#Lamba"> </a>
+</h4>
+<p>its a function without name
+in our case we are saying lambda r take parameter r its gonna return fname column</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Summary-:-What-I-learned-about-Datablock">
+<a class="anchor" href="#Summary-:-What-I-learned-about-Datablock" aria-hidden="true"><span class="octicon octicon-link"></span></a>Summary : What I learned about Datablock<a class="anchor-link" href="#Summary-:-What-I-learned-about-Datablock"> </a>
+</h2>
+<ol>
+<li>Configure your dataset methods label and traning etc</li>
+<li>call dataset function that will handle it </li>
+</ol>
+<p>what if i will call dataloaders</p>
+<p>Recall in image case we did</p>
+<p>pets = Datablock (specify everything how labels to get from filename ,get_y etc...)</p>
+<p>pets.dataloaders(image path)</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dblock</span> <span class="o">=</span> <span class="n">DataBlock</span><span class="p">(</span><span class="n">get_x</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="s2">"fname"</span><span class="p">],</span><span class="n">get_y</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="s2">"labels"</span><span class="p">])</span>
+<span class="n">dsets</span> <span class="o">=</span> <span class="n">dblock</span><span class="o">.</span><span class="n">datasets</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dsets</span><span class="o">.</span><span class="n">train</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>('006028.jpg', 'bicycle person')</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Same-Thing-Again-With-Functions">
+<a class="anchor" href="#Same-Thing-Again-With-Functions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Same Thing Again With Functions<a class="anchor-link" href="#Same-Thing-Again-With-Functions"> </a>
+</h3>
+<p>Because randomly picking differnt dataset</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_x</span><span class="p">(</span><span class="n">r</span><span class="p">):</span> <span class="k">return</span> <span class="n">r</span><span class="p">[</span><span class="s1">'fname'</span><span class="p">]</span>
+<span class="k">def</span> <span class="nf">get_y</span><span class="p">(</span><span class="n">r</span><span class="p">):</span> <span class="k">return</span> <span class="n">r</span><span class="p">[</span><span class="s1">'labels'</span><span class="p">]</span>
+<span class="n">dblock</span> <span class="o">=</span> <span class="n">DataBlock</span><span class="p">(</span><span class="n">get_x</span> <span class="o">=</span> <span class="n">get_x</span><span class="p">,</span> <span class="n">get_y</span> <span class="o">=</span> <span class="n">get_y</span><span class="p">)</span>
+<span class="n">dsets</span> <span class="o">=</span> <span class="n">dblock</span><span class="o">.</span><span class="n">datasets</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">dsets</span><span class="o">.</span><span class="n">train</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>('007385.jpg', 'sofa')</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Note">
+<a class="anchor" href="#Note" aria-hidden="true"><span class="octicon octicon-link"></span></a>Note<a class="anchor-link" href="#Note"> </a>
+</h2>
+<p>be careful about lambda if you want to save data block to use later</p>
+<p>python dont support for lambda</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Path</span><span class="o">.</span><span class="n">BASE_PATH</span> <span class="o">=</span> <span class="n">path</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Lets-Give-the-path-of-image">
+<a class="anchor" href="#Lets-Give-the-path-of-image" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lets Give the path of image<a class="anchor-link" href="#Lets-Give-the-path-of-image"> </a>
+</h2>
+<p>Now I have images as filename here from dataframe</p>
+<p>I want to give a proper path to it</p>
+<p>and</p>
+<p>MultiCategory Label</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_x</span><span class="p">(</span><span class="n">r</span><span class="p">):</span> <span class="k">return</span> <span class="n">path</span><span class="o">/</span><span class="s1">'train'</span><span class="o">/</span><span class="n">r</span><span class="p">[</span><span class="s1">'fname'</span><span class="p">]</span>
+<span class="k">def</span> <span class="nf">get_y</span><span class="p">(</span><span class="n">r</span><span class="p">):</span> <span class="k">return</span> <span class="n">r</span><span class="p">[</span><span class="s1">'labels'</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">' '</span><span class="p">)</span>
+<span class="n">dblock</span> <span class="o">=</span> <span class="n">DataBlock</span><span class="p">(</span><span class="n">get_x</span> <span class="o">=</span> <span class="n">get_x</span><span class="p">,</span> <span class="n">get_y</span> <span class="o">=</span> <span class="n">get_y</span><span class="p">)</span>
+<span class="n">dsets</span> <span class="o">=</span> <span class="n">dblock</span><span class="o">.</span><span class="n">datasets</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">dsets</span><span class="o">.</span><span class="n">train</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(Path('train/001930.jpg'), ['train', 'person'])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Results--:-Datablock">
+<a class="anchor" href="#Results--:-Datablock" aria-hidden="true"><span class="octicon octicon-link"></span></a>Results  : Datablock<a class="anchor-link" href="#Results--:-Datablock"> </a>
+</h3>
+<p>Independent variable  = image
+dependendt are labels long list of zero and 1s</p>
+<p>Its one hot encoding</p>
+<p>0 -- no object
+1- object present</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dblock</span> <span class="o">=</span> <span class="n">DataBlock</span><span class="p">(</span><span class="n">blocks</span> <span class="o">=</span><span class="p">(</span><span class="n">ImageBlock</span><span class="p">,</span><span class="n">MultiCategoryBlock</span><span class="p">),</span>
+                  <span class="n">get_x</span><span class="o">=</span><span class="n">get_x</span><span class="p">,</span><span class="n">get_y</span><span class="o">=</span><span class="n">get_y</span><span class="p">)</span>
+<span class="n">dsets</span> <span class="o">=</span><span class="n">dblock</span><span class="o">.</span><span class="n">datasets</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">dsets</span><span class="o">.</span><span class="n">train</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(PILImage mode=RGB size=500x375,
+ TensorMultiCategory([0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1.]))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="HafizAhmadHassan/HafizAhmadHassan"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/HafizAhmadHassan/jupyter/fastai/pytorch/classification/2021/09/09/DeepDiveBreedClassification-8.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/HafizAhmadHassan/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/HafizAhmadHassan/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/HafizAhmadHassan/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/HafizAhmadHassan" title="HafizAhmadHassan"><svg class="svg-icon grey"><use xlink:href="/HafizAhmadHassan/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/AhmadHassanDS" title="AhmadHassanDS"><svg class="svg-icon grey"><use xlink:href="/HafizAhmadHassan/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
