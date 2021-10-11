@@ -20,7 +20,7 @@ _powered by [fastpages](https://github.com/fastai/fastpages)_
 
 
 # Intro 
-Hi My Name is Hafiz Ahmad Hassan. I have done Bachelors in Computer Science and Master in Bioinformatics. I have an Interests in deep learning especially its application in Healthcare Sectors. I do technical blogging everyday. See the website above for more details.
+Hi My Name is Hafiz Ahmad Hassan. I have done Bachelors in Computer Science and Master in Bioinformatics. I have an Interest in deep learning especially its application in Healthcare Sectors. I do technical blogging everyday. See the website above for more details.
 
 
 
