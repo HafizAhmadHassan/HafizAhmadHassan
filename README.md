@@ -16,7 +16,7 @@ Click Links to open blogs
 
 # Intro 
 
-<img align="right" src="https://raw.githubusercontent.com/HafizAhmadHassan/mynbdev_cards/main/mynbdev_cards/images/img44.jpeg"
+<img align="right" src="https://raw.githubusercontent.com/HafizAhmadHassan/mynbdev_cards/main/mynbdev_cards/images/IMG-2.jpg"
          alt="Teddy bear" width="115" height="145">
 
 
