@@ -15,6 +15,7 @@
 I work mostly in Python, C++ and PyTorch, with experience in deep learning, computer vision, NLP, and web development (React, Django, Next.js). I write about it in a few places:
 
 - [Medium](https://medium.com/@l154359)
+- [Kaggle](https://kaggle.com/code/ahmadhassan061/)
 - [Deep Learning Blog](https://HafizAhmadHassan.github.io/HafizAhmadHassan/)
 - [Micromaster - Data Science by MIT EdX](https://HafizAhmadHassan.github.io/Data-Science-Blog/)
 - [My Website - Deep Learning Course](https://hafizahmadhassan.github.io/mynbdev_cards/)
