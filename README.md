@@ -23,7 +23,7 @@ I work mostly in Python, C++ and PyTorch, with experience in deep learning, comp
 ## Selected Projects
 
 - [Context Engineering Labs](https://github.com/HafizAhmadHassan/context-engineering-lab1-introduction-to-six-layers-architecture) — a series of interactive workshops on building and controlling LLM context: the six-layer architecture, system prompts, tools and MCP, and compress & isolate techniques.
-- [Career OS](https://HafizAhmadHassan.github.com/career-os/#/public) — a personal agentic AI career dashboard I'm building as a portfolio and learning roadmap.
+- [Career OS](https://HafizAhmadHassan.github.io/career-os/#/public) — a personal agentic AI career dashboard I'm building as a portfolio and learning roadmap.
 - [Claude Architect Academy](https://github.com/HafizAhmadHassan/claude-architect-academy) — a preparation platform for the Claude Certified Architect (CCA-F) certification.
 
 ## Publications
