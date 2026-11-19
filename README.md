@@ -4,7 +4,7 @@
 <img align="right" src="https://raw.githubusercontent.com/HafizAhmadHassan/mynbdev_cards/main/mynbdev_cards/images/IMG-2.jpg"
          alt="Photo" width="145" height="145">
 
-> Hello, my name is Hafiz Ahmad Hassan. I am your mentor in the path of deep learning. I studied Bachelors in Computer Science from [FAST-NUCES](https://nu.edu.pk/) and a Masters in Bioinformatics from [University of Verona](https://www.univr.it/home).
+> Hello, my name is Hafiz Ahmad Hassan. I am your mentor in the path of deep learning. I studied Bachelors in Computer Science from [FAST-NUCES](https://nu.edu.pk/) and from [University of Verona](https://www.univr.it/home).
 
 > I've worked as a Researcher at the [WEISS Surgical Robot Vision Group](https://www.ucl.ac.uk/interventional-surgical-sciences/) at University College London, taught as a Computer Science Instructor at [H-Farm International School](https://www.h-farm.com/en) in Italy, and co-founded an AI education initiative called Nextrick. I'm currently working as a Software Engineer at K.G.N S.r.l in Vicenza, Italy.
 
